@@ -22,8 +22,7 @@ public class ArchitectureTest {
             .layer("Infrastructure").definedBy("br.com.szella.orderapi.infrastructure..")
 
             .whereLayer("Domain").mayOnlyBeAccessedByLayers("Application", "Infrastructure")
-            .whereLayer("Application").mayOnlyBeAccessedByLayers("Infrastructure")
-            .whereLayer("Infrastructure").mayNotAccessAnyLayer();
+            .whereLayer("Application").mayOnlyBeAccessedByLayers("Infrastructure");
 
     // Regra 2: O Domínio NUNCA deve depender de frameworks externos (Spring, JPA, Kafka, Jackson, etc)
     @ArchTest
@@ -43,7 +42,7 @@ public class ArchitectureTest {
     @ArchTest
     static final ArchRule controllers_must_reside_in_web_adapter = ArchRuleDefinition.classes()
             .that().haveSimpleNameEndingWith("Controller")
-            .should().resideInAPackage("br.com.szella.orderapi.infrastructure.adapter.in.web..")
+            .should().resideInAPackage("br.com.szella.orderapi.infrastructure.adapters.in.web..")
             .because("Controllers são adaptadores de entrada HTTP e devem ficar isolados na infraestrutura.");
 
     // Regra 4: Interfaces de Portas de Saída devem residir em application.ports.out
